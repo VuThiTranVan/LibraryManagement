@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Permissions.java description table Permissions
  * 
@@ -133,6 +135,7 @@ public class Permissions {
         this.userUpdate = userUpdate;
     }
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "permissions")
     public Set<Users> getUsers() {
         return users;

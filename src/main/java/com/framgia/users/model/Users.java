@@ -94,7 +94,8 @@ public class Users {
 		this.userId = userId;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "permissionsId", nullable = false)
 	public Permissions getPermissions() {
 		return permissions;
