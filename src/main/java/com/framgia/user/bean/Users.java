@@ -1,30 +1,28 @@
 package com.framgia.user.bean;
 
-import java.sql.Date;
-
 public class Users {
 	private int userId;
 	private String userName;
 	private String passWord;
-	private Date birthDate;
+	private String birthDate;
 	private String name;
 	private String address;
 	private String phone;
 	private String sex;
 	private String email;
 	private String deleteFlag;
-	private Date dateCreate;
+	private String dateCreate;
 	private String userCreate;
-	private Date dateUpdate;
+	private String dateUpdate;
 	private String userUpdate;
 	private String permissionsName;
 
 	public Users() {
 	}
 
-	public Users(int userId, String userName, String passWord, Date birthDate,
-			String name, String address, String phone, String sex, String email, String deleteFlag, Date dateCreate,
-			String userCreate, Date dateUpdate, String userUpdate, String permissionsName) {
+	public Users(int userId, String userName, String passWord, String birthDate,
+			String name, String address, String phone, String sex, String email, String deleteFlag, String dateCreate,
+			String userCreate, String dateUpdate, String userUpdate, String permissionsName) {
 		this.userId = userId;
 		this.userName = userName;
 		this.passWord = passWord;
@@ -66,11 +64,11 @@ public class Users {
 		this.passWord = passWord;
 	}
 
-	public Date getBirthDate() {
+	public String getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -122,11 +120,11 @@ public class Users {
 		this.deleteFlag = deleteFlag;
 	}
 
-	public Date getDateCreate() {
+	public String getDateCreate() {
 		return dateCreate;
 	}
 
-	public void setDateCreate(Date dateCreate) {
+	public void setDateCreate(String dateCreate) {
 		this.dateCreate = dateCreate;
 	}
 
@@ -138,11 +136,11 @@ public class Users {
 		this.userCreate = userCreate;
 	}
 
-	public Date getDateUpdate() {
+	public String getDateUpdate() {
 		return dateUpdate;
 	}
 
-	public void setDateUpdate(Date dateUpdate) {
+	public void setDateUpdate(String dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
 

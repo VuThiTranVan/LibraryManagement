@@ -25,9 +25,9 @@ public interface UserDao {
 	
 	Users findByIdUser(String idUser);
 	// add user by from
-	Users addUser(Users uses);
+	int delLogicUser(String idUser, String userUpd);
 	
 	// update information user by from
-	Users updateUser(Users uses);
+	int updateUser(Users uses);
 
 }

@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,8 @@ import com.framgia.users.model.Users;
 public class UserDaoImpl implements UserDao {
 
 	public static String DEL_FLG = "0";
-	
+	public static String DEL_FLG_DEL = "1";
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -40,11 +42,9 @@ public class UserDaoImpl implements UserDao {
 
 		List<Users> users = new ArrayList<Users>();
 
-		users = sessionFactory.getCurrentSession().createQuery("from Users where "
-				+ "userName=:username and deleteFlag=:delFlg")
-				.setParameter("username", username)
-				.setParameter("delFlg", DEL_FLG)
-				.list();
+		users = sessionFactory.getCurrentSession()
+				.createQuery("from Users where " + "userName=:username and deleteFlag=:delFlg")
+				.setParameter("username", username).setParameter("delFlg", DEL_FLG).list();
 
 		if (users.size() > 0) {
 			return users.get(0);
@@ -72,25 +72,13 @@ public class UserDaoImpl implements UserDao {
 
 		try {
 
-			String sql = "SELECT u.userId as userId, " +
-					"p.permissionsId as permissionsId, " +
-					"u.userName as userName, " +
-					"u.passWord as passWord, " +
-					"u.birthDate as birthDate, " +
-					"u.name as name, " +
-					"u.address as address, " +
-					"u.phone as phone, " +
-					"u.sex as sex, " +
-					"u.email as email, " +
-					"u.deleteFlag as deleteFlag, " +
-					"u.dateCreate as dateCreate, " +
-					"u.userCreate as userCreate, " +
-					"u.dateUpdate as dateUpdate, " +
-					"u.userUpdate as userUpdate " +
-					"FROM Users u " +
-					"INNER JOIN Permissions p " +
-					"ON u.permissionsId = p.permissionsId "+
-					"where u.deleteFlag=0 and p.deleteFlag = 0";
+			String sql = "SELECT u.userId as userId, " + "p.permissionsId as permissionsId, "
+					+ "u.userName as userName, " + "u.passWord as passWord, " + "u.birthDate as birthDate, "
+					+ "u.name as name, " + "u.address as address, " + "u.phone as phone, " + "u.sex as sex, "
+					+ "u.email as email, " + "u.deleteFlag as deleteFlag, " + "u.dateCreate as dateCreate, "
+					+ "u.userCreate as userCreate, " + "u.dateUpdate as dateUpdate, " + "u.userUpdate as userUpdate "
+					+ "FROM Users u " + "INNER JOIN Permissions p " + "ON u.permissionsId = p.permissionsId "
+					+ "where u.deleteFlag=0 and p.deleteFlag = 0";
 
 			if (StringUtils.isNotEmpty(txtName) || StringUtils.isNotBlank(txtName)) {
 				sql += " AND u.name = :namePar";
@@ -118,7 +106,7 @@ public class UserDaoImpl implements UserDao {
 		} finally {
 			session.close();
 		}
-		
+
 		// return result
 		return result;
 	}
@@ -133,16 +121,15 @@ public class UserDaoImpl implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Users> findByAllUser() {
-		
+
 		List<Users> users = new ArrayList<Users>();
 
 		users = sessionFactory.getCurrentSession().createQuery("from Users where deleteFlag=:delFlg")
-				.setParameter("delFlg", DEL_FLG)
-				.list();
+				.setParameter("delFlg", DEL_FLG).list();
 
 		return users;
 	}
-	
+
 	/**
 	 * Search user with function login
 	 * 
@@ -153,11 +140,22 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public Users findByIdUser(String idUser) {
 		List<Users> users = new ArrayList<Users>();
-		users = sessionFactory.getCurrentSession().createQuery("from Users where userId=:idUser and deleteFlag=:delFlg")
-				.setParameter("idUser", idUser)
-				.setParameter("delFlg", DEL_FLG)
-				.list();
 
+		Session session = sessionFactory.openSession();
+		try {
+			String sql = "SELECT * FROM Users u WHERE u.userId = :idUser AND deleteFlag=:delFlg";
+
+			SQLQuery selectQuery = session.createSQLQuery(sql);
+
+			selectQuery.setParameter("idUser", idUser);
+			selectQuery.setParameter("delFlg", DEL_FLG);
+
+			users = selectQuery.addEntity(Users.class).list();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 		if (users.size() > 0) {
 			return users.get(0);
 		} else {
@@ -166,19 +164,102 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public Users addUser(Users uses) {
-		// TODO Auto-generated method stub
-		return null;
+	public int delLogicUser(String idUser, String userUpd) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		int result = 0;
+
+		try {
+			tx = session.beginTransaction();
+			// update table slip_product
+			String sql = "UPDATE Users SET dateUpdate = NOW()," + " userUpdate = :userUpd," + " deleteFlag=:delFlg"
+					+ " where userId = :idUser";
+			SQLQuery selectQuery = session.createSQLQuery(sql);
+
+			// Set parameter
+			selectQuery.setParameter("userUpd", userUpd);
+			selectQuery.setParameter("idUser", idUser);
+			selectQuery.setParameter("delFlg", DEL_FLG_DEL);
+
+			result = selectQuery.executeUpdate();
+
+			if (result == 0) {
+				if (tx != null) {
+					tx.rollback();
+					return 0;
+				}
+			}
+
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+				e.printStackTrace();
+				return 0;
+			}
+		} finally {
+			session.close();
+		}
+		return result;
 	}
 
 	@Override
-	public Users updateUser(Users uses) {
-		// TODO Auto-generated method stub
-		return null;
+	public int updateUser(Users uses) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		int result = 0;
+
+		try {
+			tx = session.beginTransaction();
+			// update table slip_product
+			String sql = "UPDATE Users SET" +
+					" birthDate = :birthDate," +
+					" name = :name," +
+					" address = :address," +
+					" phone = :phone," +
+					" sex = :sex," +
+					" email = :email," +
+					" userUpdate = :userUpdate," +
+					" dateUpdate = NOW()"
+					+ " where userId = :idUser";
+
+			SQLQuery selectQuery = session.createSQLQuery(sql);
+
+			// Set parameter
+			selectQuery.setParameter("birthDate", uses.getBirthDate());
+			selectQuery.setParameter("name", uses.getName());
+			selectQuery.setParameter("address", uses.getAddress());
+			selectQuery.setParameter("phone", uses.getPhone());
+			selectQuery.setParameter("sex", uses.getSex());
+			selectQuery.setParameter("email", uses.getEmail());
+			selectQuery.setParameter("userUpdate", uses.getUserUpdate());
+			selectQuery.setParameter("idUser", uses.getUserId());
+
+
+			result = selectQuery.executeUpdate();
+
+			if (result == 0) {
+				if (tx != null) {
+					tx.rollback();
+					return 0;
+				}
+			}
+
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+				e.printStackTrace();
+				return 0;
+			}
+		} finally {
+			session.close();
+		}
+		return result;
 	}
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
-	
+
 }

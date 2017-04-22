@@ -29,9 +29,9 @@ public interface ManagementUsersService {
 	// Search user with input text search
 	List<Users> findByUsersWithCondition(String txtName, String txtPermission);
 
-	// add user by from
-	Users addUser(Users uses);
+	// delete logic user
+	int delLogicUser(String idUser, String userUpd);
 
 	// update information user by from
-	Users updateUser(Users uses);
+	int updateUser(Users uses);
 }

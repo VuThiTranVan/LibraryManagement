@@ -1635,3 +1635,18 @@ section div.manageUser {
 	color: #ff1b00;
 	font-size: 16px;
 }
+
+.detail-user {
+	height: 43px;
+}
+
+div.detail-user .detail-user-head-left {
+	float: left;
+}
+
+div.detail-user .detail-user-head-right {
+	float: right;
+	float: right;
+	padding-top: 0px;
+	margin: -5px 0px;
+}

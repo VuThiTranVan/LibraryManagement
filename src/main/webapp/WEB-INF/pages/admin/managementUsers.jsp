@@ -93,5 +93,5 @@
 			type="button" value="BACK HOME" class="btn-forwardscreen"></a>
 	</div>
 </section>
-<script src="${pageContext.request.contextPath}/assets/js/manageUser.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/customize-Admin/manageUser.js"></script>
 
