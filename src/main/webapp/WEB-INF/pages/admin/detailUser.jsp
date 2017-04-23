@@ -6,6 +6,10 @@
  * vu.thi.tran.van@framgia.com
  * 18/04/2017
  -->
+<section class="bg_white clearfix messageError">
+    <div class="body clearfix mt20 manageUser" id="messageContainer">
+    </div>
+</section>
 <c:choose>
 	<c:when test="${not empty user.userId}">
 	   <spring:url value="/managementUsers/update" var="userActionUrl" />
@@ -21,10 +25,10 @@
 						<div class="detail-user-head-right">
 							<a  class="lableForm" href="#" onclick="clickBtnEdit()"><input type="button" value="Edit"
 								class="btn btn-detail"></a>
-							<a id="save" class="editForm hidden_elem" href="#">
-							     <button id="register" type="submit" class="btn btn-detail" >Submit</button>
+							<a id="save" class="editForm hidden_elem" href="#" id="editbtn">
+							     <button id="editbtn" type="submit" class="btn btn-detail" >Submit</button>
 							</a>
-                                <a class="editForm hidden_elem" href="#" onclick="clickBtnCancel()"><input type="button" value="cancel"
+                                <a class="editForm hidden_elem" id="cancelbtn" href="#" onclick="clickBtnCancel()"><input type="button" value="cancel"
                                 class="btn btn-detail"></a>
 						</div>
 					</div>
@@ -36,10 +40,10 @@
 								<tr>
 									<th>Id user</th>
 									<td><label>${user.userId}</label>
-                                        <form:label path="userId"
+                                        <form:input path="userId"
                                                 name="userId" id="userId" class="hidden_elem"
                                                 placeholder="Please input text."/>
-                                                <form:label path="dateUpdate"
+                                        <form:input path="dateUpdate"
                                                 name="dateUpdate" id="dateUpdate" class="hidden_elem"
                                                 placeholder="Please input text." />
                                     </td>
@@ -51,7 +55,7 @@
 								<tr>
 									<th>Full name</th>
 
-									<td><span class="lableForm"> <label>${user.name}</label>
+									<td><span id="lblName" class="lableForm"> <label>${user.name}</label>
 									</span> <span class="editForm hidden_elem"> <form:input path="name"
 												name="name" id="name" class="form-control"
 												placeholder="Please input text."
@@ -60,15 +64,15 @@
 								</tr>
 								<tr>
 									<th>Permissions</th>
-									<td><span class="lableForm"> <label>${user.permissionsName}</label>
+									<td><span id="lblPermissionsName" class="lableForm"> <label>${user.permissionsName}</label>
 									</span> <span class="editForm hidden_elem"> 
 									<form:select
 												path="permissionsName" id="permissionsName"
-												name="permissionsName" class="form-control"
+												name="permissionsName" class="form-control "
 												style="display: inline; width: 65%;">
 												<c:forEach items="${permissionInfo}" var="per">
 												    <c:choose>
-													  <c:when test="${per.permissionName != permissionsName}">
+													  <c:when test="${user.permissionsName == per.permissionName}">
 													    <form:option value="${per.permissionsId}" selected="true">${per.permissionName}</form:option>
 													  </c:when>
 													  <c:otherwise>
@@ -82,7 +86,7 @@
 								</tr>
 								<tr>
 									<th>Birthday</th>
-									<td><span class="lableForm"> <label>${user.birthDate}</label>
+									<td><span id="lblBirthDate" class="lableForm"> <label>${user.birthDate}</label>
 									</span> <span class="editForm hidden_elem"> <form:input path="birthDate"
 												name="birthDate" id="birthDate" class="form-control"
 												placeholder="Please input text."
@@ -92,7 +96,7 @@
 								<tr>
 									<th>Address</font>
 									</th>
-									<td><span class="lableForm"> <label>${user.address}</label>
+									<td><span id="lblAddress" class="lableForm"> <label>${user.address}</label>
 									</span> <span class="editForm hidden_elem"> <form:input path="address"
 												name="address" id="address" class="form-control"
 												placeholder="Please input text."
@@ -102,7 +106,7 @@
 								<tr>
 									<th>Phone number</font>
 									</th>
-									<td><span class="lableForm"> <label>${user.phone}</label>
+									<td><span id="lblPhone" class="lableForm"> <label>${user.phone}</label>
 									</span> <span class="editForm hidden_elem"> <form:input path="phone"
 												name="phone" id="phone" class="form-control"
 												placeholder="Please input text."
@@ -112,7 +116,7 @@
 								<tr>
 									<th>Gender</font>
 									</th>
-									<td><span class="lableForm"> <label>${user.sex}</label>
+									<td><span id="lblSex" class="lableForm"> <label>${user.sex}</label>
 									</span> <span class="editForm hidden_elem">
 									   <c:if test="${user.sex == 'Fmale' }">
 									 <form:radiobutton path="sex"
@@ -132,7 +136,7 @@
 								<tr>
 									<th>Email</font>
 									</th>
-									<td><span class="lableForm"> <label>${user.email}</label>
+									<td><span id="lblEmail" class="lableForm"> <label>${user.email}</label>
 									</span><span class="editForm hidden_elem"> <form:input path="email"
 												name="email" id="email" class="form-control"
 												placeholder="Please input text."

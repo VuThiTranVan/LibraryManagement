@@ -1,4 +1,4 @@
-package com.framgia.user.bean;
+package com.framgia.users.bean;
 
 import java.sql.Date;
 

@@ -1650,3 +1650,7 @@ div.detail-user .detail-user-head-right {
 	padding-top: 0px;
 	margin: -5px 0px;
 }
+
+lable.error {
+	color: #ff1b00;
+}

@@ -36,20 +36,9 @@ public class ManagementUsersServiceImpl implements ManagementUsersService {
 	}
 
 	@Override
-	public List<Users> findByAllUser() {
-		// TODO Auto-generated method stub
-		return userDao.findByAllUser();
-	}
-
-	@Override
 	public List<Users> findByUsersWithCondition(String txtName, String txtPermission) {
 		// TODO Auto-generated method stub
 		return userDao.findByUsersWithCondition(txtName, txtPermission);
-	}
-	@Override
-	public int updateUser(Users uses) {
-		// TODO Auto-generated method stub
-		return userDao.updateUser(uses);
 	}
 
 	@Override
@@ -64,10 +53,5 @@ public class ManagementUsersServiceImpl implements ManagementUsersService {
 		return userDao.findByIdUser(idUser);
 	}
 
-	@Override
-	public int delLogicUser(String idUser, String userUpd) {
-		// TODO Auto-generated method stub
-		return userDao.delLogicUser(idUser, userUpd);
-	}
 
 }

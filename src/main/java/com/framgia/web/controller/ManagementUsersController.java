@@ -8,14 +8,10 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.framgia.user.bean.Permissions;
-import com.framgia.user.bean.Users;
+import com.framgia.users.bean.Permissions;
+import com.framgia.users.bean.Users;
 import com.framgia.users.service.ManagementUsersService;
 
 /**
@@ -36,11 +32,6 @@ import com.framgia.users.service.ManagementUsersService;
 @Controller
 public class ManagementUsersController {
 
-	static int PER_ID_ADM = 1;
-	static int PER_ID_MAN = 2;
-	static int PER_ID_STU = 3;
-	static String PER_NAME_MAN = "ROLE_MANAGEMENT";
-	static String PER_NAME_ADM = "ROLE_ADMIN";
 	@Autowired
 	ManagementUsersService managementUsersService;
 
@@ -165,53 +156,8 @@ public class ManagementUsersController {
 		ModelAndView mv = new ModelAndView("managementUserDetail", "user", user);
 
 		mv.addObject("permissionInfo", permissionInfo);
-		
+
 		return mv;
-	}
-	
-	@RequestMapping(value = "/managementUsers/delete/{id}", 
-			method=RequestMethod.GET)
-	@ResponseBody
-	public int delLogicUser(@PathVariable("id") String idUser) {
-		int result = 0;
-
-		result = managementUsersService.delLogicUser(idUser, getUserName());
-
-		return result;
-
-	}
-	
-	@RequestMapping(value = "/managementUsers/update", method = RequestMethod.POST)
-	public @ResponseBody String updateUsser(@ModelAttribute("user") Users user,
-			BindingResult result, ModelMap model) {
-		int flgUpd = 0;
-		try {
-			com.framgia.users.model.Users userModel = new com.framgia.users.model.Users();
-			userModel.setUserId(user.getUserId());
-			userModel.setName(user.getName());
-			userModel.getPermissions().setPermissionsId(Integer.parseInt(user.getPermissionsName()));
-			userModel.setBirthDate(user.getBirthDate());
-			userModel.setEmail(user.getEmail());
-			userModel.setPhone(user.getPhone());
-			userModel.setSex(user.getSex());
-			userModel.setAddress(user.getAddress());
-			userModel.setUserUpdate(getUserName());
-			userModel.setDateUpdate(user.getDateUpdate());
-			flgUpd = managementUsersService.updateUser(userModel);
-			
-			if (1 == flgUpd) {
-				String urlRender = "/SpringSecurity/managementUsers/update/" + user.getUserId();
-				return "redirect:" + urlRender;
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return null;
-	}
-	
-	public String getUserName() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return auth.getName();
 	}
 
 }

@@ -20,6 +20,7 @@
 <script src="${pageContext.request.contextPath}/assets/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/jquery.validate.min.js"></script>
 
 <!-- Css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">

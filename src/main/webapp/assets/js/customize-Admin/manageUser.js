@@ -40,7 +40,7 @@ $("#searchForm").submit(function(e) {
                                 "mRender" : function(data, type, row) {
                                 	var a = "aasa";
                                     return "<button onclick='clickBtnDel("+row.userId+",this)'>Del</button>"
-                                    + "<span></span>"
+                                    + "<span class='hidden_elem' id='"+row.userId+"'>"+row.dateUpdate+"</span>"
                                     +"<a target='_blank' href='/SpringSecurity/managementUsers/detail/" + row.userId + "'>"
                                             + data+"</a>";
                                 },
@@ -67,36 +67,8 @@ $("#searchForm").submit(function(e) {
         });
     e.preventDefault(); // STOP default action
 });
-// Del user on list
-function clickBtnDel(idUser, el) {
-	if (confirm("Are you sure delete record?") == true) {
-		$('#messageContainer').html('');
-		var formURL = "/SpringSecurity/managementUsers/delete/" + idUser;
-		$.ajax({
-		    url : formURL,
-		    type : "GET",
-		    data : false,
-		    success : function(data) {
 
-			    // remove datatable
-			    var a = $('#dataTables-result').DataTable();
-			    a.row($(el).parents('tr')).remove().draw();
-
-			    // Message
-			    if (0 == data) {
-				    $('#messageContainer').html('Delete row success.');
-			    } else {
-				    $('#messageContainer').html('Delete row error.');
-			    }
-		    },
-		    error : function(error) {
-			    $('#messageContainer').html('Delete row error.');
-		    }
-		});
-	}
-};
-
-// Detail user
+//Detail user
 function clickBtnEdit() {
 	$(".editForm").removeClass('hidden_elem');
 	$(".lableForm").addClass('hidden_elem');
@@ -106,26 +78,3 @@ function clickBtnCancel() {
 	$(".lableForm").removeClass('hidden_elem');
 	$(".editForm").addClass('hidden_elem');
 }
-
-// update user
-$("#updateForm").submit(function(e) {
-	alert("agg");
-		var postData = $(this).serializeArray();
-		var formURL = $(this).attr("action");
-		$.ajax({
-			url : formURL,
-			type : "POST",
-			data : postData,
-			success : function(data, textStatus, jqXHR) {
-				if (data == 'success')
-					$('#messageContainer').html('Update user success.');
-				else
-					$('#messageContainer').html('Update user error.');
-
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				$('#messageContainer').html('Update user error.');
-			}
-		});
-	e.preventDefault(); //STOP default action
-});

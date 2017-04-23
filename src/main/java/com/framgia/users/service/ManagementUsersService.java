@@ -17,9 +17,6 @@ public interface ManagementUsersService {
 	// Search user with function login
 	Users findByUserName(String username);
 
-	// Search user with no condition
-	List<Users> findByAllUser();
-
 	// Search user with idUser
 	Users findByIdUser(String idUser);
 
@@ -28,10 +25,4 @@ public interface ManagementUsersService {
 
 	// Search user with input text search
 	List<Users> findByUsersWithCondition(String txtName, String txtPermission);
-
-	// delete logic user
-	int delLogicUser(String idUser, String userUpd);
-
-	// update information user by from
-	int updateUser(Users uses);
 }

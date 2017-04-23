@@ -27,7 +27,8 @@
 								name="txtName" type="text" placeholder="please input text">
 						</div>
 						<div class="col-sm-6">
-							<label>Permission</label> <select id="txtPermission"
+							<label>Permission</label>
+							<select id="txtPermission"
 								name="txtPermission" class="form-control">
 								<option value="0" selected="selected"></option>
 								<c:forEach items="${permissionInfo}" var="per">

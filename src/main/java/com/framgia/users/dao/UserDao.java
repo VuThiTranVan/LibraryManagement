@@ -16,18 +16,11 @@ public interface UserDao {
 
 	// Search user with function login
 	Users findByUserName(String username);
-
-	// Search user with no condition
-	List<Users> findByAllUser();
 	
 	// Search user with input text search
 	List<Users> findByUsersWithCondition(String txtName, String txtPermission);
 	
+	// search user find by id by from
 	Users findByIdUser(String idUser);
-	// add user by from
-	int delLogicUser(String idUser, String userUpd);
-	
-	// update information user by from
-	int updateUser(Users uses);
 
 }
