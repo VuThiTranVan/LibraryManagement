@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -40,6 +42,9 @@ import com.framgia.util.DateUtil;
 @Controller
 public class ManagementUsersController {
 	
+    @Autowired
+    MessageSource messageSource;
+    
 	@Autowired
 	ManagementUsersService managementUsersService;
 
@@ -121,7 +126,7 @@ public class ManagementUsersController {
 		List<UserInfo> userInfo = managementUsersService.findByUsersWithCondition(txtName, txtPermission);
 		
 		if (userInfo.size() == 0) {
-			rows.add("No search results found. Please input condition other");
+			rows.add(messageSource.getMessage("download_no_result", null, Locale.getDefault()));
 		}
 		
 		for (UserInfo item : userInfo) {

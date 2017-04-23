@@ -2,7 +2,7 @@ package com.framgia.users.model;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * BookDetail.java description table BookDetails
@@ -20,7 +22,7 @@ import javax.persistence.Table;
  * @author phan.van.hieu@framgia.com
  */
 @Entity
-@Table(name="BookDetails", catalog = "Library")
+@Table(name = "BookDetails", catalog = "Library")
 public class BookDetail {
 	private Integer bookDetailId;
 	private Book book;
@@ -30,7 +32,7 @@ public class BookDetail {
 	private String userCreate;
 	private Date dateUpdate;
 	private String userUpdate;
-	
+
 	public BookDetail() {
 	}
 
@@ -46,7 +48,7 @@ public class BookDetail {
 		this.dateUpdate = dateUpdate;
 		this.userUpdate = userUpdate;
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "bookDetailId", unique = true, nullable = false)
@@ -71,6 +73,7 @@ public class BookDetail {
 		return deleteFlag;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dateCreate", nullable = false)
 	public Date getDateCreate() {
 		return dateCreate;
@@ -81,6 +84,7 @@ public class BookDetail {
 		return userCreate;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dateUpdate", nullable = false)
 	public Date getDateUpdate() {
 		return dateUpdate;

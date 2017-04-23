@@ -7,7 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.framgia.users.model.ConstanModel;
+import com.framgia.users.model.ConstantModel;
 import com.framgia.users.model.Permissions;
 
 /**
@@ -17,7 +17,7 @@ import com.framgia.users.model.Permissions;
  * @author vu.thi.tran.van@framgia.com
  */
 @Repository("permissionDao")
-public class PermissionDaoImpl extends AbstractDao<Integer, Permissions> implements ConstanModel, PermissionDao {
+public class PermissionDaoImpl extends AbstractDao<Integer, Permissions> implements ConstantModel, PermissionDao {
 
 	@SuppressWarnings({ "unchecked", "finally" })
 	@Override
@@ -26,7 +26,7 @@ public class PermissionDaoImpl extends AbstractDao<Integer, Permissions> impleme
 		List<Permissions> queryList = new ArrayList<Permissions>();
 		try {
 			Query query = session.createQuery("from Permissions where deleteFlag = :deleteFlag");
-			query.setParameter("deleteFlag", ConstanModel.DEL_FLG);
+			query.setParameter("deleteFlag", ConstantModel.DEL_FLG);
 			queryList = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();

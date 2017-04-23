@@ -178,7 +178,7 @@
 	<c:when test="${empty user.userName}">
 		<section class="bg_white clearfix messageError">
 			<div class="body clearfix mt20 manageUser" id="messageContainer">
-				No found information of user. Please come back page management user to update data.
+				 <spring:message code="no_find_info_detail" text="default text" />
 			</div>
 		</section>
 	</c:when>

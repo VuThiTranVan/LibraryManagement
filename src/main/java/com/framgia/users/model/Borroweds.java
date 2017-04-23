@@ -4,18 +4,17 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Users.java description table Users
@@ -103,7 +102,7 @@ public class Borroweds {
 		this.borrowedCode = borrowedCode;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(targetEntity=Users.class,cascade=CascadeType.ALL)
 	@JoinColumn(name = "userId", nullable = false)
 	public Users getUser() {
 		return user;
@@ -115,21 +114,21 @@ public class Borroweds {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "dIntendBorrowed", nullable = false)
-	public Date getdIntendBorrowed() {
+	public Date getDIntendBorrowed() {
 		return dIntendBorrowed;
 	}
 
-	public void setdIntendBorrowed(Date dIntendBorrowed) {
+	public void setDIntendBorrowed(Date dIntendBorrowed) {
 		this.dIntendBorrowed = dIntendBorrowed;
 	}
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "dIntendArrived", nullable = false)
-	public Date getdIntendArrived() {
+	public Date getDIntendArrived() {
 		return dIntendArrived;
 	}
 
-	public void setdIntendArrived(Date dIntendArrived) {
+	public void setDIntendArrived(Date dIntendArrived) {
 		this.dIntendArrived = dIntendArrived;
 	}
 
@@ -161,9 +160,8 @@ public class Borroweds {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "borrowedDetailId")
+	
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "borroweds")
 	public Set<BorrowedDetails> getBorrowedDetails() {
 		return borrowedDetailsList;
 	}

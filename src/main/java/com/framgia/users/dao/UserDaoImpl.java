@@ -12,7 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.framgia.users.model.ConstanModel;
+import com.framgia.users.model.ConstantModel;
 import com.framgia.users.model.Permissions;
 import com.framgia.users.model.Users;
 import com.framgia.util.DateUtil;
@@ -24,7 +24,7 @@ import com.framgia.util.DateUtil;
  * @author phan.van.hieu@framgia.com
  */
 @Repository("userDao")
-public class UserDaoImpl extends AbstractDao<Integer, Users> implements ConstanModel, UserDao {
+public class UserDaoImpl extends AbstractDao<Integer, Users> implements ConstantModel, UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -32,7 +32,7 @@ public class UserDaoImpl extends AbstractDao<Integer, Users> implements ConstanM
 		List<Users> users = new ArrayList<Users>();
 
 		users = getSession().createQuery("from Users where userName=:username and deleteFlag=:delFlg")
-				.setParameter("username", username).setParameter("delFlg", ConstanModel.DEL_FLG).list();
+				.setParameter("username", username).setParameter("delFlg", ConstantModel.DEL_FLG).list();
 
 		if (users.size() > 0) {
 
@@ -62,7 +62,7 @@ public class UserDaoImpl extends AbstractDao<Integer, Users> implements ConstanM
 			}
 			Query query = session.createQuery(sql);
 
-			query.setParameter("deleteFlag", ConstanModel.DEL_FLG);
+			query.setParameter("deleteFlag", ConstantModel.DEL_FLG);
 			if (null != txtName && StringUtils.isNotEmpty(txtName)) {
 				query.setParameter("userName", "%" + txtName + "%");
 			}
@@ -98,7 +98,7 @@ public class UserDaoImpl extends AbstractDao<Integer, Users> implements ConstanM
 				Users user = (Users) items.get(0);
 
 				user.setUserUpdate(userUpd);
-				user.setDeleteFlag(ConstanModel.DEL_FLG_DEL);
+				user.setDeleteFlag(ConstantModel.DEL_FLG_DEL);
 				user.setDateUpdate(DateUtil.getDateNow());
 
 				getSession().saveOrUpdate(user);
@@ -126,7 +126,7 @@ public class UserDaoImpl extends AbstractDao<Integer, Users> implements ConstanM
 
 			Query query = session.createQuery(sql);
 
-			query.setParameter("deleteFlag", ConstanModel.DEL_FLG);
+			query.setParameter("deleteFlag", ConstantModel.DEL_FLG);
 
 			query.setParameter("idUser", idUser);
 

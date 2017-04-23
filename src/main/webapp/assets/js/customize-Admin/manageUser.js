@@ -3,8 +3,6 @@ function submitClear() {
 	    $('#txtPermission').val("0");
 }
 $("#btn_seach").click(function(e) {
-	
-
 
     $('#messageContainer').html('');
     e.preventDefault();

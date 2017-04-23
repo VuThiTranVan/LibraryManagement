@@ -1,6 +1,6 @@
 package com.framgia.users.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Categories.java description table Categories
@@ -110,6 +112,7 @@ public class Publishers {
 		this.deleteFlag = deleteFlag;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dateCreate", nullable = false)
 	public Date getDateCreate() {
 		return dateCreate;
@@ -128,6 +131,7 @@ public class Publishers {
 		this.userCreate = userCreate;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dateUpdate", nullable = false)
 	public Date getDateUpdate() {
 		return dateUpdate;

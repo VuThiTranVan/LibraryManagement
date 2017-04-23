@@ -2,6 +2,7 @@ package com.framgia.users.model;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Book.java description table Book
@@ -22,7 +25,7 @@ import javax.persistence.Table;
  * @author phan.van.hieu@framgia.com
  */
 @Entity
-@Table(name="Books", catalog = "Library")
+@Table(name = "Books", catalog = "Library")
 public class Book {
 	private Integer bookId;
 	private String bookCode;
@@ -36,9 +39,9 @@ public class Book {
 	private Integer numberRest;
 	private Integer numberPage;
 	private String deleteFlag;
-	private String dateCreate;
+	private Date dateCreate;
 	private String userCreate;
-	private String dateUpdate;
+	private Date dateUpdate;
 	private String userUpdate;
 	private Set<BookDetail> bookDetail = new HashSet<BookDetail>(0);
 	
@@ -47,7 +50,7 @@ public class Book {
 
 	public Book(Integer bookId, String bookCode, Categories categories, Publishers publishers, String name, Float price,
 			String statusBook, Integer numberBook, Integer numberBorrowed, Integer numberRest, Integer numberPage,
-			String deleteFlag, String dateCreate, String userCreate, String dateUpdate, String userUpdate,
+			String deleteFlag, Date dateCreate, String userCreate, Date dateUpdate, String userUpdate,
 			Set<BookDetail> bookDetail) {
 		super();
 		this.bookId = bookId;
@@ -133,8 +136,9 @@ public class Book {
 		return deleteFlag;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dateCreate", nullable = false)
-	public String getDateCreate() {
+	public Date getDateCreate() {
 		return dateCreate;
 	}
 
@@ -143,8 +147,9 @@ public class Book {
 		return userCreate;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dateUpdate", nullable = false)
-	public String getDateUpdate() {
+	public Date getDateUpdate() {
 		return dateUpdate;
 	}
 
@@ -201,7 +206,7 @@ public class Book {
 		this.deleteFlag = deleteFlag;
 	}
 
-	public void setDateCreate(String dateCreate) {
+	public void setDateCreate(Date dateCreate) {
 		this.dateCreate = dateCreate;
 	}
 
@@ -209,7 +214,7 @@ public class Book {
 		this.userCreate = userCreate;
 	}
 
-	public void setDateUpdate(String dateUpdate) {
+	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
 
@@ -225,5 +230,5 @@ public class Book {
 	public void setBookDetail(Set<BookDetail> bookDetail) {
 		this.bookDetail = bookDetail;
 	}
-	
+
 }

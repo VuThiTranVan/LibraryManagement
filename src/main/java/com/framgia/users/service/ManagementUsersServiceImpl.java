@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +15,7 @@ import com.framgia.users.dao.PermissionDao;
 import com.framgia.users.dao.UserDao;
 import com.framgia.users.model.Permissions;
 import com.framgia.users.model.Users;
+import com.framgia.util.ConvertDataModelAndBean;
 import com.framgia.util.DateUtil;
 
 /**
@@ -51,29 +51,7 @@ public class ManagementUsersServiceImpl implements ManagementUsersService {
 
 			UserInfo user = new UserInfo();
 
-			user.setUserId(item.getUserId());
-			user.setUserName(item.getUserName());
-			user.setPassWord(item.getPassWord());
-			user.setBirthDate(item.getBirthDate().toString());
-			user.setName(item.getName());
-			user.setAddress(item.getAddress());
-
-			user.setPhone(item.getPhone());
-			user.setPassWord(item.getPassWord());
-
-			user.setSex("Male");
-			if (StringUtils.isNotBlank(item.getSex()) && item.getSex().equals("0")) {
-				user.setSex("Fmale");
-			}
-			user.setEmail(item.getEmail());
-			user.setDeleteFlag(item.getDeleteFlag());
-			user.setDateCreate(item.getDateCreate().toString());
-			user.setUserCreate(item.getUserCreate());
-			user.setDateUpdate(item.getDateUpdate().toString());
-			user.setUserUpdate(item.getUserUpdate());
-			PermissionInfo per = new PermissionInfo();
-			per.setPermissionName(item.getPermissions().getPermissionName());
-			user.setPermissions(per);
+			user = ConvertDataModelAndBean.converUserModelToBean(item);
 
 			userInfo.add(user);
 
@@ -126,7 +104,7 @@ public class ManagementUsersServiceImpl implements ManagementUsersService {
 		Users userModel = userDao.findById(idUser);
 
 		if (null != userModel && userModel.getUserId() != null) {
-			user = converModelToBean(userModel);
+			user = ConvertDataModelAndBean.converUserModelToBean(userModel);
 		}
 
 		// TODO Auto-generated method stub
@@ -140,78 +118,21 @@ public class ManagementUsersServiceImpl implements ManagementUsersService {
 		UserInfo userReturn = new UserInfo();
 
 		Users userModel = new Users();
-		
-		userModel.setUserId(user.getUserId());
-		userModel.setName(user.getName());
-		Permissions per = new Permissions();
-		per.setPermissionsId(user.getPermissions().getPermissionsId());
-		userModel.setPermissions(per);
-		userModel.setBirthDate(DateUtil.convertStringtoDate(user.getBirthDate()));
-		userModel.setEmail(user.getEmail());
-		userModel.setPhone(user.getPhone());
-		userModel.setSex(user.getSex());
-		userModel.setAddress(user.getAddress());
-		userModel.setUserUpdate(user.getUserUpdate());
-		userModel.setDateUpdate(DateUtil.convertStringtoDateTime(user.getDateUpdate()));
-		userModel.setDateCreate(DateUtil.convertStringtoDateTime(user.getDateCreate()));
-		userModel.setDeleteFlag(user.getDeleteFlag());
-		userModel.setUserCreate(user.getUserCreate());
-		userModel.setPassWord(user.getPassWord());
-		userModel.setUserName(user.getUserName());
+		userModel = ConvertDataModelAndBean.converUserBeanToModel(user);
 
 		Users userUpd = userDao.updateUser(userModel);
+
 		if (null != userUpd && userUpd.getUserId() != null) {
 
 			TransactionAspectSupport.currentTransactionStatus().isCompleted();
 
-			userReturn = converModelToBean(userUpd);
-			
+			userReturn = ConvertDataModelAndBean.converUserModelToBean(userUpd);
+
 			userReturn.setDateUpdate(DateUtil.convertDateTimetoString(userUpd.getDateUpdate()));
 		} else {
 			TransactionAspectSupport.currentTransactionStatus().isRollbackOnly();
 		}
 
 		return userReturn;
-	}
-
-	public UserInfo converModelToBean(Users mUser) {
-
-		UserInfo bUser = new UserInfo();
-
-		if (null != mUser && mUser.getUserId() != null) {
-			if (null != mUser.getUserId()) {
-				bUser.setUserId(mUser.getUserId());
-			}
-			bUser.setUserName(mUser.getUserName());
-			bUser.setPassWord(mUser.getPassWord());
-			if (null != mUser.getBirthDate()) {
-			bUser.setBirthDate(mUser.getBirthDate().toString());
-			}
-			bUser.setName(mUser.getName());
-			bUser.setAddress(mUser.getAddress());
-			bUser.setPhone(mUser.getPhone());
-			bUser.setPassWord(mUser.getPassWord());
-
-			bUser.setSex("Male");
-			if (StringUtils.isNotBlank(mUser.getSex()) && mUser.getSex().equals("0")) {
-				bUser.setSex("Fmale");
-			}
-			bUser.setEmail(mUser.getEmail());
-			bUser.setDeleteFlag(mUser.getDeleteFlag());
-
-			if (null != mUser.getDateCreate()) {
-			bUser.setDateCreate(mUser.getDateCreate().toString().substring(0, 19));
-			}
-			bUser.setUserCreate(mUser.getUserCreate());
-			if (null != mUser.getDateUpdate()) {
-			bUser.setDateUpdate(mUser.getDateUpdate().toString().substring(0, 19));
-			}
-			bUser.setUserUpdate(mUser.getUserUpdate());
-			PermissionInfo perInfo = new PermissionInfo();
-
-			perInfo.setPermissionName(mUser.getPermissions().getPermissionName());
-			bUser.setPermissions(perInfo);
-		}
-		return bUser;
 	}
 }

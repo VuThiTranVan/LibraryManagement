@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,11 +24,11 @@ import javax.persistence.TemporalType;
  * @author vu.thi.tran.van@framgia.com
  */
 @Entity
-@Table(name = "Users", catalog = "Library")
+@Table(name = "BorrowedDetails", catalog = "Library")
 public class BorrowedDetails {
 
 	private Integer borrowedDetailId;
-	private Borroweds borrowed;
+	private Borroweds borroweds;
 	private Book book;
 	private String status;
     private String deleteFlag;
@@ -42,7 +44,7 @@ public class BorrowedDetails {
 			Date dateCreate, String userCreate, Date dateUpdate, String userUpdate) {
 		super();
 		this.borrowedDetailId = borrowedDetailId;
-		this.borrowed = borrowed;
+		this.borroweds = borrowed;
 		this.book = book;
 		this.status = status;
 		this.deleteFlag = deleteFlag;
@@ -65,15 +67,15 @@ public class BorrowedDetails {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "borrowedId", nullable = false)
-	public Borroweds getBorrowed() {
-		return borrowed;
+	public Borroweds getBorroweds() {
+		return borroweds;
 	}
 
-	public void setBorrowed(Borroweds borrowed) {
-		this.borrowed = borrowed;
+	public void setBorroweds(Borroweds borrowed) {
+		this.borroweds = borrowed;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(targetEntity=Book.class,cascade=CascadeType.ALL)
 	@JoinColumn(name = "bookId", nullable = false)
 	public Book getBook() {
 		return book;
@@ -83,7 +85,7 @@ public class BorrowedDetails {
 		this.book = book;
 	}
 
-	@Column(name = "passWord", nullable = false, length = 1)
+	@Column(name = "status", nullable = false, length = 1)
 	public String getStatus() {
 		return status;
 	}
