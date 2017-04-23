@@ -17,45 +17,56 @@
 <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/bootstrap-datepicker.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
+<script src="${pageContext.request.contextPath}/assets/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/jquery.validate.min.js"></script>
 
 <!-- Css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dataTables.bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/datepicker.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/js/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/js/jquery.dataTables.min.css">
 
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 </head>
-
+</head>
 <body>
 
     <header>
         <section class="bg_red clearfix">
             <h1 id="logo" style="font-weight: bold;">FRAMGIA LIBRARY WEB</h1>
-            <p id="logout">
-                <%-- <s:property value="#session.universityNmSsn"/>　
-                <button type="button" class="btn btn-default btn-xs" onclick="location.href=
-                '${pageContext.request.contextPath}/logout'">logout</button> --%>
-                
-                <form:form action="${pageContext.request.contextPath}/appLogout" method="POST">
-                ${pageContext.request.userPrincipal.name} | 
-                <input type="submit" value="Logout"/>
-                </form:form>
-            </p>
         </section>
+        
     </header>
         
+     
     <nav class="navbar navbar-default">
+    	
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed"
                     data-toggle="collapse" data-target="#site-menu">
                 </button>
                 <p class="navbar-brand"><tiles:insertAttribute name="screenname" /></p>
+                
             </div>
-            <div class="collapse navbar-collapse" id="site-menu">
-                <tiles:insertAttribute name="menu" />
+            
+            <div class="collapse navbar-collapse navbar-custom" id="site-menu">
+            	<tiles:insertAttribute name="menu" />
+                <c:if test="${not empty pageContext.request.userPrincipal.name}">
+                    <form:form action="${pageContext.request.contextPath}/appLogout" method="POST">
+                           <p class="pull-right">
+                           ${pageContext.request.userPrincipal.name} |
+                           <input class="btn-forwardscreen" name="submit" type="submit" value="Logout"">
+                           </p>
+                    </form:form> 
+                </c:if>
             </div>
         </div>
+        
+        
     </nav>
     
     <tiles:insertAttribute name="body" />
