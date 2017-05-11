@@ -222,4 +222,40 @@ public class UserDaoImpl extends AbstractDao<Integer, Users> implements Constant
 
 		return false;
 	}
+
+	@Override
+	public Users updatePassword(Users user) {
+
+		logger.info("Update password.");
+		try {
+			Criteria crit = getSession().createCriteria(Users.class);
+
+			if (null != user.getEmail()) {
+				crit.add(Restrictions.eq("email", user.getEmail()));
+			}
+
+			if (null != user.getName()) {
+				crit.add(Restrictions.eq("userName", user.getUserName()));
+			}
+
+			// Here is updated code
+			ScrollableResults items = crit.scroll();
+
+			while (items.next()) {
+				Users userUpd = (Users) items.get(0);
+
+				userUpd.setPassWord(user.getPassWord());
+				userUpd.setUserUpdate(user.getUserUpdate());
+				userUpd.setDateUpdate(DateUtil.getDateNow());
+				
+				getSession().saveOrUpdate(userUpd);
+
+				logger.info("Update password end.");
+				return userUpd;
+			}
+		} catch (Exception e) {
+			logger.error("Error update password: " + e.getMessage());
+		}
+		return null;
+	}
 }

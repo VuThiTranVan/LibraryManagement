@@ -30,4 +30,6 @@ public interface UserDao {
 	// update information user by from
 	boolean updateUser(Users uses);
 
+	// forgot password
+	Users updatePassword (Users user);
 }

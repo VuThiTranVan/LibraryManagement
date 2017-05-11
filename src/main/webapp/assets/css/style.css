@@ -1679,3 +1679,19 @@ button.btnScrUser {
 	float: left;
 	width: 70%;
 }
+
+.text-align-right{
+	text-align: right;
+}
+
+.btn-css-link {
+	border: none;
+	background-color: transparent;
+	text-decoration: underline;
+}
+
+.cus-modal-header {
+background-color: #b8193f;
+color: #fff;
+font-size: 18px;
+}

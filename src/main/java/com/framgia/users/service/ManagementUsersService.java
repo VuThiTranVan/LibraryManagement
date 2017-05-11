@@ -32,4 +32,6 @@ public interface ManagementUsersService {
 
 	// update information user by from
 	boolean updateUser(UserInfo uses);
+	
+	UserInfo updateForgotPassword(String email);
 }

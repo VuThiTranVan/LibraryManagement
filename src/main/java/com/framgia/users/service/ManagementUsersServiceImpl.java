@@ -2,8 +2,11 @@ package com.framgia.users.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -14,6 +17,7 @@ import com.framgia.users.dao.PermissionDao;
 import com.framgia.users.dao.UserDao;
 import com.framgia.users.model.Permissions;
 import com.framgia.users.model.Users;
+import com.framgia.util.Constant;
 import com.framgia.util.ConvertDataModelAndBean;
 import com.framgia.util.DateUtil;
 
@@ -126,5 +130,39 @@ public class ManagementUsersServiceImpl implements ManagementUsersService {
 		}
 
 		return flagUpd;
+	}
+
+	@Transactional
+	@Override
+	public UserInfo updateForgotPassword(String email) {
+
+		String token = UUID.randomUUID().toString();
+
+		String passwordConvert = passwordEncoderToString(token);
+
+		Users user = new Users();
+
+		user.setPassWord(passwordConvert);
+		user.setEmail(email);
+		user.setUserUpdate(Constant.USER_UPDATE_DEFAULT);
+
+		user = userDao.updatePassword(user);
+
+		if (null != user) {
+			TransactionAspectSupport.currentTransactionStatus().isCompleted();
+
+			return ConvertDataModelAndBean.converUserModelToBean(user);
+		} else {
+			TransactionAspectSupport.currentTransactionStatus().isRollbackOnly();
+
+			return null;
+		}
+	}
+
+	// encode password
+	public String passwordEncoderToString(String token) {
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(token);
+		return hashedPassword;
 	}
 }

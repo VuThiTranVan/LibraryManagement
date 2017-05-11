@@ -18,4 +18,6 @@ public class Constant {
 	public final static String NAME_REPORT_BORROWED = "Download_Report_Borrowed";
 
 	public final static String EXTERNAL = ".csv";
+
+	public final static String USER_UPDATE_DEFAULT = "Admin";
 }
