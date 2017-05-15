@@ -23,13 +23,13 @@ public interface UserDao {
 	List<Users> findByConditon(String txtName, int txtPermission);
 
 	// add user by from
-	boolean delLogicUser(int idUser, String userUpd, Date dateUpdate);
+	boolean delLogicUser(int idUser, String userUpd, Date dateUpdate) throws ParseException;
 
 	// search user find by id by from
 	Users findById(int idUser);
 
 	// update information user by from
-	boolean updateUser(Users uses);
+	boolean updateUser(Users uses) throws ParseException;
 
 	// forgot password
 	Users updatePassword(Users user) throws ParseException;

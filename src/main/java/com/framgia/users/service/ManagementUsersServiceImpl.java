@@ -17,7 +17,6 @@ import com.framgia.users.bean.PermissionInfo;
 import com.framgia.users.bean.UserInfo;
 import com.framgia.users.dao.PermissionDao;
 import com.framgia.users.dao.UserDao;
-import com.framgia.users.dao.UserDaoImpl;
 import com.framgia.users.model.Permissions;
 import com.framgia.users.model.Users;
 import com.framgia.util.Constant;
@@ -35,7 +34,8 @@ import com.framgia.util.DateUtil;
 public class ManagementUsersServiceImpl implements ManagementUsersService {
 
 	// log
-	private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
+	private static final Logger logger = Logger.getLogger(ManagementUsersServiceImpl.class);
+
 
 	@Autowired
 	private UserDao userDao;
@@ -94,8 +94,12 @@ public class ManagementUsersServiceImpl implements ManagementUsersService {
 	@Override
 	public int delLogicUser(int idUser, String userUpd, String dateUpdate) {
 		int result = 0;
-		if (userDao.delLogicUser(idUser, userUpd, DateUtil.convertStringtoDateTime(dateUpdate))) {
-			result = 1;
+		try {
+			if (userDao.delLogicUser(idUser, userUpd, DateUtil.convertStringtoDateTime(dateUpdate))) {
+				result = 1;
+			}
+		} catch (ParseException e) {
+			logger.error("Error delete user: ", e);
 		}
 
 		return result;
@@ -120,10 +124,18 @@ public class ManagementUsersServiceImpl implements ManagementUsersService {
 	@Override
 	public boolean updateUser(UserInfo user) {
 
-		Users userModel = new Users();
-		userModel = ConvertDataModelAndBean.converUserBeanToModel(user);
+		try {
 
-		return userDao.updateUser(userModel);
+			Users userModel = new Users();
+			userModel = ConvertDataModelAndBean.converUserBeanToModel(user);
+
+			return userDao.updateUser(userModel);
+
+		} catch (ParseException e) {
+
+			logger.error("Error update user: ", e);
+			return false;
+		}
 	}
 
 	@Transactional

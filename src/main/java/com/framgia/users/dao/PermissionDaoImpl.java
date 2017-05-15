@@ -28,17 +28,12 @@ public class PermissionDaoImpl extends AbstractDao<Integer, Permissions> impleme
 		logger.info("Search list permission.");
 
 		Session session = getOpenSession();
-		try {
-			Query query = session.createQuery("from Permissions where deleteFlag = :deleteFlag");
-			query.setParameter("deleteFlag", ConstantModel.DEL_FLG);
-			logger.info("Search list permission end.");
+		Query query = session.createQuery("from Permissions where deleteFlag = :deleteFlag");
+		query.setParameter("deleteFlag", ConstantModel.DEL_FLG);
+		logger.info("Search list permission end.");
 
-			return query.list();
-		} catch (Exception e) {
-			logger.error("Error search list permission: " + e.getMessage());
+		return query.list();
 
-			return null;
-		}
 	}
 
 }

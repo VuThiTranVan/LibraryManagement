@@ -1,5 +1,6 @@
 package com.framgia.users.dao;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.framgia.users.model.BorrowedDetails;
@@ -11,7 +12,7 @@ public interface BorrowedBookDao {
 
 	Borroweds findByIdBorrowed(int idBorrowed);
 
-	Borroweds update(Borroweds mBorrowed);
+	Borroweds update(Borroweds mBorrowed) throws ParseException;
 	
-	BorrowedDetails updateBorrowedDetails(BorrowedDetails mBorrowedDetails);
+	BorrowedDetails updateBorrowedDetails(BorrowedDetails mBorrowedDetails) throws ParseException;
 }
