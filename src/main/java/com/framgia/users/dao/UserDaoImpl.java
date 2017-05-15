@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -93,6 +92,7 @@ public class UserDaoImpl extends AbstractDao<Integer, Users> implements Constant
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean delLogicUser(int idUser, String userUpd, Date dateUpdate) {
 		logger.info("Delete user.");
@@ -105,9 +105,9 @@ public class UserDaoImpl extends AbstractDao<Integer, Users> implements Constant
 			crit.add(Restrictions.eq("dateUpdate", dateUpdate));
 
 			// Here is updated code
-			ScrollableResults items = crit.scroll();
+			List<Users> items = crit.list();
 
-			while (items.next()) {
+			if (items != null && items.size() > 0) {
 				Users user = (Users) items.get(0);
 
 				user.setUserUpdate(userUpd);
@@ -160,6 +160,7 @@ public class UserDaoImpl extends AbstractDao<Integer, Users> implements Constant
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean updateUser(Users user) {
 		logger.info("Update user.");
@@ -170,9 +171,9 @@ public class UserDaoImpl extends AbstractDao<Integer, Users> implements Constant
 			crit.add(Restrictions.eq("dateUpdate", user.getDateUpdate()));
 
 			// Here is updated code
-			ScrollableResults items = crit.scroll();
+			List<Users> items = crit.list();
 
-			while (items.next()) {
+			if (items != null && items.size() > 0) {
 				Users userUpd = (Users) items.get(0);
 
 				if (null != user.getName() && !user.getName().isEmpty()) {

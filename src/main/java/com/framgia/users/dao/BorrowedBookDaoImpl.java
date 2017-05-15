@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -151,50 +150,54 @@ public class BorrowedBookDaoImpl extends AbstractDao<Integer, Borroweds> impleme
 			crit.add(Restrictions.eq("dateUpdate", mBorrowed.getDateUpdate()));
 
 			List<Borroweds> items = crit.list();
-			mUpdBorrowed = (Borroweds) items.get(0);
 
-			switch (mBorrowed.getStatus()) {
-			case ConstantModel.BOR_STATUS_APPROVE:
-				mUpdBorrowed.setStatus(ConstantModel.BOR_STATUS_APPROVE);
-				break;
-			case ConstantModel.BOR_STATUS_CANCEL:
-				mUpdBorrowed.setStatus(ConstantModel.BOR_STATUS_CANCEL);
+			if (items != null && items.size() > 0) {
+				mUpdBorrowed = (Borroweds) items.get(0);
 
-				break;
-			case ConstantModel.BOR_STATUS_BORRWED:
-				mUpdBorrowed.setStatus(ConstantModel.BOR_STATUS_BORRWED);
-				mUpdBorrowed.setDateBorrrowed(mBorrowed.getDateBorrrowed());
-				break;
-			case ConstantModel.BOR_STATUS_FINISH:
-				mUpdBorrowed.setStatus(ConstantModel.BOR_STATUS_FINISH);
+				switch (mBorrowed.getStatus()) {
+				case ConstantModel.BOR_STATUS_APPROVE:
+					mUpdBorrowed.setStatus(ConstantModel.BOR_STATUS_APPROVE);
+					break;
+				case ConstantModel.BOR_STATUS_CANCEL:
+					mUpdBorrowed.setStatus(ConstantModel.BOR_STATUS_CANCEL);
 
-				if (StringUtils.isNotEmpty(mBorrowed.getDateBorrrowed().toString())) {
+					break;
+				case ConstantModel.BOR_STATUS_BORRWED:
+					mUpdBorrowed.setStatus(ConstantModel.BOR_STATUS_BORRWED);
 					mUpdBorrowed.setDateBorrrowed(mBorrowed.getDateBorrrowed());
+					break;
+				case ConstantModel.BOR_STATUS_FINISH:
+					mUpdBorrowed.setStatus(ConstantModel.BOR_STATUS_FINISH);
+
+					if (StringUtils.isNotEmpty(mBorrowed.getDateBorrrowed().toString())) {
+						mUpdBorrowed.setDateBorrrowed(mBorrowed.getDateBorrrowed());
+					}
+
+					mUpdBorrowed.setDateArrived(mBorrowed.getDateArrived());
+					break;
 				}
 
-				mUpdBorrowed.setDateArrived(mBorrowed.getDateArrived());
-				break;
+				mUpdBorrowed.setUserUpdate(mBorrowed.getUserUpdate());
+				mUpdBorrowed.setDateUpdate(DateUtil.getDateNow());
+
+				getSession().saveOrUpdate(mUpdBorrowed);
+				logger.info("Update borrowed end.");
+
+				return mUpdBorrowed;
 			}
-
-			mUpdBorrowed.setUserUpdate(mBorrowed.getUserUpdate());
-			mUpdBorrowed.setDateUpdate(DateUtil.getDateNow());
-
-			getSession().saveOrUpdate(mUpdBorrowed);
-			logger.info("Update borrowed end.");
-
-			return mUpdBorrowed;
-
 		} catch (Exception e) {
 			logger.error("Update Borrowed error: " + e.getMessage());
 
 			return null;
 		}
+
+		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public BorrowedDetails updateBorrowedDetails(BorrowedDetails mBorrowedDetails) {
 		logger.info("Update borrowed detail.");
-		BorrowedDetails mUpdBorrowed = new BorrowedDetails();
 
 		try {
 
@@ -204,9 +207,10 @@ public class BorrowedBookDaoImpl extends AbstractDao<Integer, Borroweds> impleme
 			crit.add(Restrictions.eq("dateUpdate", mBorrowedDetails.getDateUpdate()));
 
 			// Here is updated code
-			ScrollableResults items = crit.scroll();
+			List<BorrowedDetails> items = crit.list();
 
-			while (items.next()) {
+			if (items != null && items.size() > 0) {
+				BorrowedDetails mUpdBorrowed = new BorrowedDetails();
 
 				mUpdBorrowed = (BorrowedDetails) items.get(0);
 
@@ -215,16 +219,16 @@ public class BorrowedBookDaoImpl extends AbstractDao<Integer, Borroweds> impleme
 				mUpdBorrowed.setStatus(mBorrowedDetails.getStatus());
 
 				getSession().saveOrUpdate(mUpdBorrowed);
-			}
-			
-			logger.info("Update borrowed detail end.");
-			
-			return mUpdBorrowed;
 
+				logger.info("Update borrowed detail end.");
+
+				return mUpdBorrowed;
+			}
 		} catch (Exception e) {
 			logger.error("Update borrowed detail error: " + e.getMessage());
 
 			return null;
 		}
+		return null;
 	}
 }
