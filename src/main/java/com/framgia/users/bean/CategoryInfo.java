@@ -7,11 +7,20 @@ package com.framgia.users.bean;
  * @author phan.van.hieu@framgia.com
  */
 public class CategoryInfo {
+	private int categoriesId;
 	private int catSubId;
 	private String categoriesCode;
 	private String name;
 	
 	public CategoryInfo() {
+	}
+
+	public int getCategoriesId() {
+		return categoriesId;
+	}
+
+	public void setCategoriesId(int categoriesId) {
+		this.categoriesId = categoriesId;
 	}
 
 	public int getCatSubId() {

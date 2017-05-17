@@ -64,4 +64,13 @@ public class CategoryDAOImpl extends AbstractDao<Integer, Categories> implements
 		getOpenSession().saveOrUpdate(categories);
 		logger.info("Insert success.");
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Categories> listCategory() {
+		List<Categories> categoryList = getOpenSession().createQuery("from Categories where deleteFlag = :deleteFlag").
+				setParameter("deleteFlag", ConstantModel.DEL_FLG)
+				.list();
+		return categoryList;
+	}
 }

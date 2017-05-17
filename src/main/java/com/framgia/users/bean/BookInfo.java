@@ -1,5 +1,7 @@
 package com.framgia.users.bean;
 
+import java.util.List;
+
 /**
  * BookInfo.java description infor data insert table Book
  * 
@@ -11,9 +13,9 @@ public class BookInfo {
 	private int bookId;
 	private String categoriesName;
 	private String publishersName;
-	private String bookCode;
 	private int categoriesId;
 	private int publishersId;
+	private String bookCode;
 	private String name;
 	private Float price;
 	private String statusBook;
@@ -26,6 +28,7 @@ public class BookInfo {
 	private String userCreate;
 	private String dateUpdate;
 	private String userUpdate;
+	private List<BookDetailInfo> bookDetail;
 
 	public BookInfo() {
 	}
@@ -172,6 +175,14 @@ public class BookInfo {
 
 	public void setUserUpdate(String userUpdate) {
 		this.userUpdate = userUpdate;
+	}
+
+	public List<BookDetailInfo> getBookDetail() {
+		return bookDetail;
+	}
+
+	public void setBookDetail(List<BookDetailInfo> bookDetail) {
+		this.bookDetail = bookDetail;
 	}
 
 }

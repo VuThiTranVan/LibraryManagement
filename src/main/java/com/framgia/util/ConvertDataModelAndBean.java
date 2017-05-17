@@ -123,13 +123,16 @@ public class ConvertDataModelAndBean {
 	public static CategoryInfo converCategoryModelToBean(Categories mCategory) {
 
 		CategoryInfo bCategory = new CategoryInfo();
-
 		if (null != mCategory) {
-			bCategory.setCatSubId(mCategory.getCatSubId());
-			bCategory.setCategoriesCode(mCategory.getCategoriesCode());
+			bCategory.setCategoriesId(mCategory.getcategoriesId());
+			if (mCategory.getCatSubId() != null) {
+				bCategory.setCatSubId(mCategory.getCatSubId());
+			}
+			if (mCategory.getCategoriesCode() != null) {
+				bCategory.setCategoriesCode(mCategory.getCategoriesCode());
+			}
 			bCategory.setName(mCategory.getName());
 		}
-
 		return bCategory;
 	}
 
@@ -138,6 +141,7 @@ public class ConvertDataModelAndBean {
 		Categories mCategory = new Categories();
 
 		if (null != bCategory) {
+			mCategory.setcategoriesId(bCategory.getCategoriesId());
 			mCategory.setCatSubId(bCategory.getCatSubId());
 			mCategory.setCategoriesCode(bCategory.getCategoriesCode());
 			mCategory.setName(bCategory.getName());
@@ -239,6 +243,8 @@ public class ConvertDataModelAndBean {
 
 		if (null != mBook) {
 			bBook.setBookId(mBook.getBookId());
+
+			// category
 			bBook.setCategoriesName(mBook.getCategories().getName());
 			bBook.setPublishersName(mBook.getPublishers().getPublishersName());
 			bBook.setCategoriesId(mBook.getCategories().getcategoriesId());

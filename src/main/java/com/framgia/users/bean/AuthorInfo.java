@@ -7,6 +7,7 @@ package com.framgia.users.bean;
  * @author phan.van.hieu@framgia.com
  */
 public class AuthorInfo {
+	private int authorsId;
 	private String authorsName;
 	private String sex;
 	private String email;
@@ -16,6 +17,14 @@ public class AuthorInfo {
 	private String address;
 
 	public AuthorInfo() {
+	}
+
+	public int getAuthorsId() {
+		return authorsId;
+	}
+
+	public void setAuthorsId(int authorsId) {
+		this.authorsId = authorsId;
 	}
 
 	public String getAuthorsName() {

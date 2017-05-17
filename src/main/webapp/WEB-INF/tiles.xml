@@ -139,7 +139,7 @@
 			<add-attribute value="/assets/js/calendar/jquery-ui.css" />
 		</put-list-attribute>
 	</definition>
-	
+
 	<!-- Admin - import data -->
 	<definition name="importData" extends="baseLayout">
 		<put-attribute name="title" value="IMPORT DATA" />
@@ -170,7 +170,8 @@
 	<definition name="managementBorrowed" extends="baseLayout">
 		<put-attribute name="title" value="Management borowed books" />
 		<put-attribute name="screenname" value="Management borowed books" />
-		<put-attribute name="body" value="/WEB-INF/pages/admin/managementBorowed.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/pages/admin/managementBorowed.jsp" />
 		<put-list-attribute name="cssDefault">
 			<add-attribute value="/assets/css/bootstrap.min.css" />
 			<add-attribute value="/assets/css/dataTables.bootstrap.min.css" />
@@ -198,9 +199,12 @@
 
 	<!-- Management Borrowed - Detail -->
 	<definition name="managementBorrowedDetail" extends="baseLayout">
-		<put-attribute name="title" value="Management borowed books _ Detail borowed book" />
-		<put-attribute name="screenname" value="Management borowed books _ Detail borowed book" />
-		<put-attribute name="body" value="/WEB-INF/pages/admin/borrowedDetail.jsp" />
+		<put-attribute name="title"
+			value="Management borowed books _ Detail borowed book" />
+		<put-attribute name="screenname"
+			value="Management borowed books _ Detail borowed book" />
+		<put-attribute name="body"
+			value="/WEB-INF/pages/admin/borrowedDetail.jsp" />
 		<put-list-attribute name="cssDefault">
 			<add-attribute value="/assets/css/bootstrap.min.css" />
 			<add-attribute value="/assets/css/dataTables.bootstrap.min.css" />
@@ -246,4 +250,34 @@
 		</put-list-attribute>
 	</definition>
 
+	<!-- Management Book -->
+	<definition name="managementBook" extends="baseLayout">
+		<put-attribute name="title" value="Management book" />
+		<put-attribute name="screenname" value="Management book" />
+		<put-attribute name="body"
+			value="/WEB-INF/pages/admin/managementBook.jsp" />
+		<put-list-attribute name="cssDefault">
+			<add-attribute value="/assets/css/bootstrap.min.css" />
+			<add-attribute value="/assets/css/dataTables.bootstrap.min.css" />
+			<add-attribute value="/assets/css/style.css" />
+			<add-attribute value="/assets/js/dataTables.bootstrap.min.css" />
+			<add-attribute value="/assets/js/jquery.dataTables.min.css" />
+		</put-list-attribute>
+		<put-list-attribute name="jsDefault">
+			<add-attribute value="/assets/js/jquery.min.js" />
+			<add-attribute value="/assets/js/bootstrap.min.js" />
+			<add-attribute value="/assets/js/bootstrap-datepicker.js" />
+			<add-attribute value="/assets/js/init.js" />
+			<add-attribute value="/assets/js/bootstrap.min.js" />
+			<add-attribute value="/assets/js/jquery.dataTables.min.js" />
+			<add-attribute value="/assets/js/jquery.validate.min.js" />
+		</put-list-attribute>
+		<put-list-attribute name="jsAdd">
+			<add-attribute value="/assets/js/calendar/jquery-ui.js" />
+			<add-attribute value="/assets/js/customize-Admin/manageBook.js" />
+		</put-list-attribute>
+		<put-list-attribute name="cssAdd">
+			<add-attribute value="/assets/js/calendar/jquery-ui.css" />
+		</put-list-attribute>
+	</definition>
 </tiles-definitions>

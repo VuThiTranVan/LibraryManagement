@@ -7,12 +7,21 @@ package com.framgia.users.bean;
  * @author phan.van.hieu@framgia.com
  */
 public class PublisherInfo {
+	private int publishersId;
 	private String publishersName;
 	private String phone;
 	private String email;
 	private String address;
 	
 	public PublisherInfo() {
+	}
+
+	public int getPublishersId() {
+		return publishersId;
+	}
+
+	public void setPublishersId(int publishersId) {
+		this.publishersId = publishersId;
 	}
 
 	public String getPublishersName() {

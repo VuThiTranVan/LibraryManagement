@@ -1,5 +1,7 @@
 package com.framgia.users.dao;
 
+import java.util.List;
+
 import com.framgia.users.model.Categories;
 
 /**
@@ -18,4 +20,7 @@ public interface CategoryDAO {
 
 	// Insert data into table Category
 	public void insertCategory(Categories categories);
+	
+	List<Categories> listCategory();
+	
 }

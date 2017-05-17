@@ -30,7 +30,7 @@ public class CsvFileWriter {
 
 	// CSV file header
 	public final static String HEADER_CSV_BORROWED = "Borrowed id, Borrowed code, Username, Fullname, Email, Phone number, Gender, Date intend borrowed, Date intend payment, Date borrowed, "
-	        + "Date payment, Status of borrowed, Status of book rent, Book code, Book name, Price, Page number, Category, Publisher";
+			+ "Date payment, Status of borrowed, Status of book rent, Book code, Book name, Price, Page number, Category, Publisher";
 
 	// header of file report of screen management users
 	public final static String HEADER_CSV_USER = "User id, Username, Permission, Full name, Email, Birthday, Address, Gender, Phone number, User create, Date create, User update, Date update";
@@ -42,7 +42,7 @@ public class CsvFileWriter {
 
 		// Create the CSVFormat object with "\n" as a record delimiter
 		CSVFormat csvFileFormatHeard = CSVFormat.newFormat(',').withHeader(HEADER_CSV_BORROWED)
-		        .withRecordSeparator(NEW_LINE_SEPARATOR);
+				.withRecordSeparator(NEW_LINE_SEPARATOR);
 
 		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);
 
@@ -112,7 +112,7 @@ public class CsvFileWriter {
 
 		// Create the CSVFormat object with "\n" as a record delimiter
 		CSVFormat csvFileFormatHeard = CSVFormat.newFormat(',').withHeader(HEADER_CSV_USER)
-		        .withRecordSeparator(NEW_LINE_SEPARATOR);
+				.withRecordSeparator(NEW_LINE_SEPARATOR);
 
 		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);
 
