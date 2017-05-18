@@ -18,7 +18,10 @@ public interface ManagementBookService {
 
 	// find by conditon form of admin
 	List<BookInfo> findByConditon(String book, String categoryId);
-	
+
 	// Delete book
 	String deleteBook(int bookId, String userUpdate);
+
+	// Find by idBook
+	public BookInfo findBookId(String bookId);
 }

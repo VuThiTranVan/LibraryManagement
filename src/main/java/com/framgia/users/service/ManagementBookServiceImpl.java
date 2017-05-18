@@ -194,4 +194,18 @@ public class ManagementBookServiceImpl implements ManagementBookService {
 		return "error";
 	}
 
+	@Override
+	public BookInfo findBookId(String bookId) {
+		BookInfo bookInfo = new BookInfo();
+
+		Book mBook = bookDao.findBookId(bookId);
+
+		if (null != mBook) {
+			bookInfo = ConvertDataModelAndBean.converBookModelToBean(mBook);
+		}
+
+		// TODO Auto-generated method stub
+		return bookInfo;
+	}
+
 }

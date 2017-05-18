@@ -127,6 +127,24 @@ public class ManagementBookController {
 		return managementBookService.deleteBook(bookId, getUserName());
 	}
 
+	@RequestMapping(value = "/managementBook/detail/{id}", method = RequestMethod.GET)
+	public ModelAndView detailPage(@PathVariable("id") String idBook) {
+		logger.info("call service: get user and get list permission");
+
+		// get infor book
+		BookInfo bookInfo = managementBookService.findBookId(idBook);
+
+		// get value category for select box
+		List<CategoryInfo> categoryInfo = managementBookService.findCategoryId();
+
+		// render page detail category
+		ModelAndView mv = new ModelAndView("managementBookDetail", "bookInfo", bookInfo);
+
+		mv.addObject("categoryInfo", categoryInfo);
+
+		return mv;
+	}
+
 	public String getUserName() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {

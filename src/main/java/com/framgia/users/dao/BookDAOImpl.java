@@ -13,6 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.framgia.users.model.Book;
+import com.framgia.users.model.Borroweds;
 import com.framgia.users.model.ConstantModel;
 
 /**
@@ -43,18 +44,33 @@ public class BookDAOImpl extends AbstractDao<Integer, Book> implements ConstantM
 	@SuppressWarnings("unchecked")
 	@Override
 	public Book findBookId(String bookId) {
-		List<Book> book = new ArrayList<Book>();
+		logger.info("Search book by id");
+		Criteria crit = getOpenSession().createCriteria(Book.class);
+		crit.createAlias("bookDetail", "detail")
+		 .add(Restrictions.eq("detail.deleteFlag", ConstantModel.DEL_FLG));
+		crit.add(Restrictions.eq("deleteFlag", ConstantModel.DEL_FLG));
+		crit.add(Restrictions.eq("bookId", bookId));
+		
 
-		book = getOpenSession().createQuery("from Book where bookId=:bookId and deleteFlag=:delFlg")
-				.setParameter("bookId", Integer.parseInt(bookId)).setParameter("delFlg", ConstantModel.DEL_FLG).list();
+		List<Book> items = crit.list();
 
-		if (book.size() > 0) {
-
-			return book.get(0);
-		} else {
-
-			return null;
+		if (items != null && items.size() > 0) {
+			return items.get(0);
 		}
+		return null;
+//		book = getOpenSession().createQuery("from Book as book where bookId=:bookId and deleteFlag=:delFlg")
+//				.setParameter("bookId", Integer.parseInt(bookId))
+//				.setParameter("delFlg", ConstantModel.DEL_FLG)
+//				.list();
+		
+
+//		if (book.size() > 0) {
+//
+//			return book.get(0);
+//		} else {
+//
+//			return null;
+//		}
 	}
 
 	@SuppressWarnings("unchecked")
